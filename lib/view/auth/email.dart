@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../controller/authController.dart';
+
 // Kept your GlobalKey as requested
 var VerificationKey = GlobalKey<FormState>();
 
@@ -30,8 +32,39 @@ class _SignInWithEmailState extends State<SignInWithEmail> {
     if (VerificationKey.currentState!.validate()) {
       VerificationKey.currentState!.save();
       print("Form is valid! Email: ${emailController.text}");
+
     }
   }
+  // void create_account(String name,phone,email,String password){
+  //   if(process==AuthProcess.createAccount) {
+  //     AuthController().createAccount(
+  //       context: context,
+  //       name: name,
+  //       phoneno: phone,
+  //       email: email,
+  //       password: password
+  //     );
+  //
+  //   }
+  //
+  // }
+  void create_account(
+      String name,
+      String phone,
+      String email,
+      String password,
+      ) {
+    if (process == AuthProcess.createAccount) {
+      AuthController().createAccount(
+        context: context,
+        name: nameController.text,
+        phoneno: phoneController.text,
+        email: emailController.text,
+        password: passwordController.text,
+      );
+    }
+  }
+
 
   @override
   void dispose() {
@@ -88,9 +121,9 @@ class _SignInWithEmailState extends State<SignInWithEmail> {
                           const SizedBox(height: 15),
                           _buildTextField(
                             controller: phoneController,
-                            hint: "Phone No",
+                            hint: "Phone No (10 Digits)",
                             icon: Icons.phone_android,
-                            validator: (val) => val!.length < 10 ? "Enter valid phone" : null,
+                            validator: (val) => val!.length == 10 ? "Enter valid phone" : null,
                           ),
                           const SizedBox(height: 15),
                         ],
@@ -118,7 +151,13 @@ class _SignInWithEmailState extends State<SignInWithEmail> {
                           width: double.infinity,
                           height: 50,
                           child: ElevatedButton(
-                            onPressed: submit,
+                            onPressed: (){
+                              submit();
+                              if(process==AuthProcess.createAccount)
+                              create_account(nameController.text,phoneController.text,emailController.text ,passwordController.text);
+                              if(process==AuthProcess.signin);
+
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFE23744),
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),

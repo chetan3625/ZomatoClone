@@ -7,10 +7,12 @@ const userSchema=mongoose.Schema({
 
     },
     phoneno:{
-    type:Number,
+    type:String,
     required:true,
     unique:true,
     trim:true,
+
+
 
     },
     email:{
